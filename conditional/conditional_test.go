@@ -1,0 +1,89 @@
+package conditional
+
+// Package utility provides utility functions for functional programming in Go.
+//
+// This file is part of golang-fp-utility.
+//
+// golang-fp-utility is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation, either version 3
+// of the License, or (at your option) any later version.
+//
+// golang-fp-utility is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with golang-fp-utility. If not, see <https://www.gnu.org/licenses/lgpl-3.0.txt>.
+
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
+
+func TestIfThen(t *testing.T) {
+	result := IfThen(true, 1, 2)
+	assert.Equal(t, 1, result)
+
+	result = IfThen(false, 1, 2)
+	assert.Equal(t, 2, result)
+
+	type TempStruct struct {
+		Name  string
+		Value int
+	}
+	value1 := TempStruct{
+		Name:  "value1",
+		Value: 1,
+	}
+	value2 := TempStruct{
+		Name:  "value2",
+		Value: 2,
+	}
+
+	resultTempStruct := IfThen(true, value1, value2)
+	assert.Equal(t, value1, resultTempStruct)
+
+	resultTempStruct = IfThen(false, value1, value2)
+	assert.Equal(t, value2, resultTempStruct)
+
+	resultTempStruct = IfThen(value1.Value < value2.Value, value2, value1)
+	assert.Equal(t, value2, resultTempStruct)
+
+	resultInt := IfThen(false, 1, 2)
+	assert.Equal(t, 2, resultInt)
+
+	resultString := IfThen(true, "1", "2")
+	assert.Equal(t, "1", resultString)
+
+	resultString = IfThen(len("ABC") < 4, "less than length 4.", "more than length 4.")
+	assert.Equal(t, "less than length 4.", resultString)
+
+	resultString = IfThen(len("ABD") < 4, "0", "1")
+	assert.Equal(t, "0", resultString)
+
+	resultString = IfThen(len("ABCD") < 4, "0", "1")
+	assert.Equal(t, "1", resultString)
+
+	tempInfo1 := TempStruct{
+		Name:  IfThen(len("ABCD") < 4, "1", "0"),
+		Value: 2,
+	}
+	expected := TempStruct{
+		Name:  "0",
+		Value: 2,
+	}
+	assert.EqualValues(t, expected, tempInfo1)
+
+	tempInfo1 = TempStruct{
+		Name:  IfThen(len("ABCD") == 4, "ABCD", ""),
+		Value: IfThen(len("ABCD") > 4, 4, 0),
+	}
+	expected = TempStruct{
+		Name:  "ABCD",
+		Value: 0,
+	}
+	assert.EqualValues(t, expected, tempInfo1)
+}
