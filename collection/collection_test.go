@@ -857,7 +857,7 @@ func TestHigherOrderFunction_Sort(t *testing.T) {
 	})
 }
 
-func TestAny(t *testing.T) {
+func TestExists(t *testing.T) {
 	testCases := []struct {
 		name      string
 		input     []int
@@ -886,7 +886,7 @@ func TestAny(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			result := Any(tc.input, tc.condition)
+			result := Exists(tc.input, tc.condition)
 			assert.Equal(t, tc.expected, result)
 		})
 	}

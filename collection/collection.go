@@ -166,9 +166,9 @@ func Filter[T any](source []T, filterFunc func(item T) bool) []T {
 	return result
 }
 
-// Any checks if any element in the collection satisfies the condition.
+// Exists checks if any element in the collection satisfies the condition.
 // T is a generic type parameter that can represent any type.
-func Any[T any](collection []T, condition func(T) bool) bool {
+func Exists[T any](collection []T, condition func(T) bool) bool {
 	for _, item := range collection {
 		if condition(item) {
 			return true
