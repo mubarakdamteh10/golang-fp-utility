@@ -856,3 +856,38 @@ func TestHigherOrderFunction_Sort(t *testing.T) {
 		assert.Equal(t, expected, sorted)
 	})
 }
+
+func TestAny(t *testing.T) {
+	testCases := []struct {
+		name      string
+		input     []int
+		condition func(int) bool
+		expected  bool
+	}{
+		{
+			name:      "Any element greater than 10",
+			input:     []int{1, 2, 3, 4, 11},
+			condition: func(n int) bool { return n > 10 },
+			expected:  true,
+		},
+		{
+			name:      "No element greater than 10",
+			input:     []int{1, 2, 3, 4},
+			condition: func(n int) bool { return n > 10 },
+			expected:  false,
+		},
+		{
+			name:      "Empty slice",
+			input:     []int{},
+			condition: func(n int) bool { return n > 10 },
+			expected:  false,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			result := Any(tc.input, tc.condition)
+			assert.Equal(t, tc.expected, result)
+		})
+	}
+}
