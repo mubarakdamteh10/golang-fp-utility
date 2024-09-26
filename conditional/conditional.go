@@ -29,7 +29,7 @@ func IfThen[T any](condition bool, ifTrue, ifFalse T) T {
 	return ifFalse
 }
 
-func all[T any](elements []T, condition func(T) bool) bool {
+func All[T any](elements []T, condition func(T) bool) bool {
 	for _, e := range elements {
 		if !condition(e) {
 			return false
