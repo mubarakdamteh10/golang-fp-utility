@@ -87,3 +87,54 @@ func TestIfThen(t *testing.T) {
 	}
 	assert.EqualValues(t, expected, tempInfo1)
 }
+func TestAll(t *testing.T) {
+	t.Run("TestAllWithIntegers", func(t *testing.T) {
+		// Test with integers
+		ints := []int{2, 4, 6, 8}
+		isEven := func(n int) bool {
+			return n%2 == 0
+		}
+		assert.True(t, all(ints, isEven))
+
+		ints = []int{2, 4, 6, 7}
+		assert.False(t, all(ints, isEven))
+	})
+
+	t.Run("TestAllWithStrings", func(t *testing.T) {
+
+		// Test with strings
+		strings := []string{"apple", "apricot", "avocado"}
+		startsWithA := func(s string) bool {
+			return s[0] == 'a'
+		}
+		assert.True(t, all(strings, startsWithA))
+
+		strings = []string{"apple", "banana", "avocado"}
+		assert.False(t, all(strings, startsWithA))
+	})
+
+	t.Run("TestAllWithStructs", func(t *testing.T) {
+		// Test with custom struct
+		type TempStruct struct {
+			Name  string
+			Value int
+		}
+		structs := []TempStruct{
+			{Name: "one", Value: 1},
+			{Name: "two", Value: 2},
+			{Name: "three", Value: 3},
+		}
+		valueLessThanFour := func(ts TempStruct) bool {
+			return ts.Value < 4
+		}
+		assert.True(t, all(structs, valueLessThanFour))
+
+		structs = []TempStruct{
+			{Name: "one", Value: 1},
+			{Name: "two", Value: 2},
+			{Name: "four", Value: 4},
+		}
+		assert.False(t, all(structs, valueLessThanFour))
+	})
+
+}
